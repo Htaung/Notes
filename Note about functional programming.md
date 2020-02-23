@@ -1,3 +1,6 @@
+Ref
+https://github.com/MostlyAdequate/mostly-adequate-guide
+
 mostly-adequate.gitbooks.io/mostly-adequate-guide/ch03.html#oh-to-be-pure-again
 
 //	associative
