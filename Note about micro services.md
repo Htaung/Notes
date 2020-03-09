@@ -69,3 +69,8 @@ Resource<User> resource = new Resource<User>(user);
 
 Spring Boot Actuator used for health checking, data rest Hal browser used to monitor spring rest
 hal browser provide easily access to api by using browser without post man
+configure in spring actuator in application.properties
+management.endpoints.web.exposure.include=*
+
+in hal broser can check for spring actuator heath, spring configuraton problem, spring bean. metric can check jvm memory usage
+
