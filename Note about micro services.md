@@ -19,3 +19,12 @@ To validate a request
 just add @valiate in @RequestBody
 
 birthdate have @past validation
+
+
+HATEOAS => Hipermedia as the Engine of Application State
+To provide a useful resource link in web service response,
+
+Resource<User> resource = new Resource<User>(user);
+  ControllerLinkBuilder linkto 
+  resource.add(linkto.withRel("all-users")
+  
