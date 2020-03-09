@@ -4,4 +4,6 @@ C:\Users\Htaung\Desktop\Temp Ebook\freetutorials eu\microservices-with-spring-bo
 Spring rest to return location in response header.
 ResponseEntity.create(location).build();
 
-17
+throwing Exception spring boot will automatically handle respose status as 500 internal server error
+to customize it
+just by extending RuntimeException and add annotation @ResponseStatus(HttpStatus.NotFound)
