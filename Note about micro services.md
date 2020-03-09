@@ -35,3 +35,16 @@ Resource<User> resource = new Resource<User>(user);
   Add Locale in request method
   public String hello(@RequestHeader(name="Accept-Language") Locale locale)
   call messageSource.getMessage() from message.properties message_fr.properties
+  
+  don't need to add RequestHeader in spring boot
+  just by adding AcceptHeaderLocaleResolver
+  
+  don't need to configure in ResourceBundleMessageSource
+  just by adding application.properties as spring.message.basename=message
+  
+  
+  To provide xml just add jacksondatabind xml in pom.xml
+  
+  to provide WSDL in Rest
+  add springfox-swagger2 and springfox-swagger-ui
+  
