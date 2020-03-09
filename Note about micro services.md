@@ -28,3 +28,10 @@ Resource<User> resource = new Resource<User>(user);
   ControllerLinkBuilder linkto 
   resource.add(linkto.withRel("all-users")
   
+  
+  Internationalization in web service
+  Configure LocalResolver
+  ResourceBundleMessageSource
+  Add Locale in request method
+  public String hello(@RequestHeader(name="Accept-Language") Locale locale)
+  call messageSource.getMessage() from message.properties message_fr.properties
