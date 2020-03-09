@@ -74,3 +74,7 @@ management.endpoints.web.exposure.include=*
 
 in hal broser can check for spring actuator heath, spring configuraton problem, spring bean. metric can check jvm memory usage
 
+Filtering sentivive information
+just add @jsonIgonre in field
+or add @JsonIgnoreProperties(value={"filed1"}) in class level
+
