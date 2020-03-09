@@ -48,3 +48,5 @@ Resource<User> resource = new Resource<User>(user);
   to provide WSDL in Rest
   add springfox-swagger2 and springfox-swagger-ui
   
+Add SwaggerConfig
+swagger-ui.html 
