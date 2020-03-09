@@ -66,3 +66,6 @@ Resource<User> resource = new Resource<User>(user);
   @ApiModelProperty(notes="Name should have at least 50 characters")
   String name;
   
+
+Spring Boot Actuator used for health checking, data rest Hal browser used to monitor spring rest
+hal browser provide easily access to api by using browser without post man
