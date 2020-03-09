@@ -89,3 +89,6 @@ need to add in dto
 SomeBeanFilter
 @JsonFilter("SomeBeanFilter")
 class SomeBean{}
+
+
+38
