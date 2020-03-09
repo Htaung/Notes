@@ -48,5 +48,21 @@ Resource<User> resource = new Resource<User>(user);
   to provide WSDL in Rest
   add springfox-swagger2 and springfox-swagger-ui
   
-Add SwaggerConfig
-swagger-ui.html 
+  Add SwaggerConfig
+  swagger-ui.html 
+  in swagger config can define api info as our desire content
+  
+  Customizing Swagger
+  in entity or dto 
+  to provide User information
+  @ApiModel(description="Detail Users")
+  clase User{
+  
+  @Past
+  @ApiModelProperty(notes="Birth date should be in the past")
+  Date birthDate
+  
+  @Size(50)
+  @ApiModelProperty(notes="Name should have at least 50 characters")
+  String name;
+  
