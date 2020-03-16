@@ -91,4 +91,6 @@ SomeBeanFilter
 class SomeBean{}
 
 
+Versioning just use custom path like v1/getUserList v2/getUserList
+
 38
