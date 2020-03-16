@@ -102,3 +102,15 @@ Produces versioning user/produces produces="application/vnd.company.app-v1+json"
 in headers add Accept application/vnd.company.app-v1+json
 
 To show validate msg in swagger wsdl Add @ApiModelProperty(notes="requre message")
+
+
+048 Step 36 - Richardson Maturity Model when creating rest
+
+Best Practices
+Response status
+200 for success
+201 for created
+404 resource not found
+401 unauthorized
+500 server error
+400 bad request for validation
