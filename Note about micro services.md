@@ -93,4 +93,6 @@ class SomeBean{}
 
 Versioning just use custom path like v1/getUserList v2/getUserList
 
-38
+Param versioning just use in Get or PostMapping with params="version=1")
+
+Header versioning just use with headers="X-API-VERSION=1"
