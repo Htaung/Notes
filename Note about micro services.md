@@ -91,8 +91,12 @@ SomeBeanFilter
 class SomeBean{}
 
 
-Versioning just use custom path like v1/getUserList v2/getUserList
+Url Versioning just use custom path like v1/getUserList v2/getUserList
 
-Param versioning just use in Get or PostMapping with params="version=1")
+Param versioning just use in Get or PostMapping user/param with params="version=1")
 
-Header versioning just use with headers="X-API-VERSION=1"
+Header versioning just use with user/header headers="X-API-VERSION=1"
+
+MIME type versioning
+Produces versioning user/produces produces="application/vnd.company.app-v1+json"
+in headers add Accept application/vnd.company.app-v1+json
