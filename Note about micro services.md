@@ -100,3 +100,5 @@ Header versioning just use with user/header headers="X-API-VERSION=1"
 MIME type versioning
 Produces versioning user/produces produces="application/vnd.company.app-v1+json"
 in headers add Accept application/vnd.company.app-v1+json
+
+To show validate msg in swagger wsdl Add @ApiModelProperty(notes="requre message")
