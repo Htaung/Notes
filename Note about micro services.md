@@ -114,3 +114,9 @@ Response status
 401 unauthorized
 500 server error
 400 bad request for validation
+
+
+What is microservice? Not exact meaing
+Rest, Small Well chosen Deployable unit and cloud enable
+
+1 micro service can have many instance
