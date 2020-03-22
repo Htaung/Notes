@@ -120,3 +120,77 @@ What is microservice? Not exact meaing
 Rest, Small Well chosen Deployable unit and cloud enable
 
 1 micro service can have many instance
+
+Identify the boundary for each of microservices
+
+Deciding right boundary of microservices
+
+dynamic scale up and scale down like docker
+
+Microservice Architecture
+functionality is distributed among 10 services, there is a bug how do u identify where the bug is
+To know that need to monitor the micro services to know which service casue the bug
+
+5 Challenges in Microservices
+Bounded Context
+Right boundry 
+Configuration Management
+Dynamic scale up and down => to distribute load among the active instances.
+Visibility => what is happening behind the scenes with each of these services. which services was cause for defect.
+Pack of Cards => how to prevent one service being down taking down the entire application, how to build fault tolerance into micoservices.
+
+Spring cloud provide common patterns in distributed system
+
+Used in this project
+Spring Cloud Finchely M2
+
+
+Spring cloud config server provides an approach where you can store all config for all
+
+Dynamic scale up and down => will use
+Naming Server (Eureka) 
+=> Service Registration, 
+Service Discovery => Give me the instance of currency exchange service => this helps to establish bet currency cal service and instance
+Ribbon(Client Side load balancing)
+Feign(Easier Rest Client)
+
+Visibility and Monitoring => will use
+=> Zipkin Distributed Tracing
+=> Netflix Zuel Api Gateway
+=> will use spring cloud slot to assign id to request across multiple components
+
+Fault Tolerance => will use
+Hystrix 
+
+
+Advantages of micorservices
+combination of microservies can communicate with each other using simple messages each of these m-services can be built differnet technoliges(languages)
+Typical monolith app would not have this flexibility, for eg=> m-1 java , m-2 notejs ,etc.
+provides dynamic scaling 
+
+Dynamic Scaling
+in the season of black friday amazon will get huge load
+if you micro services are cloud enable, they can scale dynamically
+can scale up and down dynamically based on load
+
+Will installed 7 projects 
+https://github.com/in28minutes/spring-microservices/tree/master/03.microservices
+
+centralizd m services config or app config
+each of m services have their own config
+managing config of alot of different instances of different micro services
+that's where centralized config come to pictures
+
+spring cloud say put all conig in git repository, will take care of managing config and providing it to specific m-sevices
+currencyCalService, currentcyExchangeService, Limits Service => if each service want their config 
+spring cloud config server will provide for each service, act as centralized m-service config
+
+Establish connection between spring cloud config server and git repository
+create new folder and git init
+add git link in eclipse ==> add source folder
+right click project > Build path > link source
+add file called limits-service.properties ==> (should be same name that defined in limits-serveice project's artifactid) in source folder
+
+
+C:\Users\Htaung\Desktop\Temp Ebook\freetutorials eu\microservices-with-spring-boot-and-spring-cloud [FreeTutorials.Us]\04 Microservices with Spring Cloud
+64
