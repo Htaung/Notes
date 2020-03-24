@@ -191,6 +191,43 @@ add git link in eclipse ==> add source folder
 right click project > Build path > link source
 add file called limits-service.properties ==> (should be same name that defined in limits-serveice project's artifactid) in source folder
 
+Config for multiple environment in git repository
+limits-service default
+limits-service-dev.properties
+
+what ever change to spring cloud config' git-local-config make sure to commit first then it is available
+
+to access qa properties
+http://localhost:8888/limits-service/qa
+http://localhost:8888/limits-service/default
+http://localhost:8888/limits-service/dev
+
+Connect limit service to spring cloud config server
+to pick up config from config server
+to pick up need to rename the limit-service app.properties to any name(bootstrap.properties)
+application name is very important in config
+add properties
+spring.application.name=limits-service
+spring.cloud.config.uri=http://localhost:8888
+in bootstrap.properties
+
+1st start config server, then limits-service
+
+Configuring profiles for limits-service
+setup active profiles in limits-service
+spring.profiles.active=dev
+
+communicate service to service use the port to distinguish which service are connected to
+To get 2 instance of currency exchage service running
+externally set the server port
+to do that set it up in run config > currency-exchange-service 8001
+in arguments jvm => 
+under VM arguments =>
+-Dserver.port=8001 
+it overide the application.properties
+
+
+
 
 C:\Users\Htaung\Desktop\Temp Ebook\freetutorials eu\microservices-with-spring-boot-and-spring-cloud [FreeTutorials.Us]\04 Microservices with Spring Cloud
 64
