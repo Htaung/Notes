@@ -230,4 +230,9 @@ it overide the application.properties
 
 
 C:\Users\Htaung\Desktop\Temp Ebook\freetutorials eu\microservices-with-spring-boot-and-spring-cloud [FreeTutorials.Us]\04 Microservices with Spring Cloud
-64
+65
+
+Add Multitle properties in spring cloud
+
+
+whatever makes changes to git-local-config-repo make sure to commit in local repository, only then available in spring cloud config server
