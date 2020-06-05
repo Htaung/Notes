@@ -17,11 +17,11 @@ In tomcat config > server.xml =>
 
 <code>
 <pre>
-<Connector
+&lt;Connector
    protocol="org.apache.coyote.http11.Http11NioProtocol"
    port="8443" maxThreads="200"
    scheme="https" secure="true" SSLEnabled="true"
    keystoreFile="${user.home}/.keystore" keystorePass="changeit"
-   clientAuth="false" sslProtocol="TLS"/>
+   clientAuth="false" sslProtocol="TLS"/&gt;
 </pre>
 </code
