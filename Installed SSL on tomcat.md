@@ -14,7 +14,7 @@ C:\Users\USER\.keystore
 
 In tomcat config > server.xml =>
 
-<!-- Define an SSL Coyote HTTP/1.1 Connector on port 8443 -->
+
 <code>
 <pre>
 <Connector
