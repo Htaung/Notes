@@ -214,8 +214,7 @@ Creating initial data => add data.sql under resources => spring boot will automa
 
 In spring boot web need to add this 3 dependency in pom.xml
 
-<code>
-<pre>
+
  	<dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -230,8 +229,7 @@ In spring boot web need to add this 3 dependency in pom.xml
         <groupId>javax.servlet</groupId>
         <artifactId>jstl</artifactId>
     </dependency>
-<pre>
-</code>
+
 
 
 View Resolver in application.properties
