@@ -211,3 +211,29 @@ spring.h2.console.enabled=true
 Access h2 console by localhost:8080/h2-console => user name => sa
 
 Creating initial data => add data.sql under resources => spring boot will automatically called that sql
+
+In spring boot web need to add this 3 dependency in pom.xml
+
+<code>
+<pre>
+ 	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.tomcat.embed</groupId>
+        <artifactId>tomcat-embed-jasper</artifactId>
+    </dependency>
+
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+    </dependency>
+<pre>
+</code>
+
+
+View Resolver in application.properties
+spring.mvc.view.prefix=/WEB-INF/jsp/
+spring.mvc.view.suffix=.jsp
