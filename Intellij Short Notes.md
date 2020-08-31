@@ -1,3 +1,8 @@
+https://projectlombok.org/setup/intellij
+
+https://www.jetbrains.com/help/idea/delegate-build-and-run-actions-to-maven.html#auto_reload_maven
+
+
 ctrl+shift+f7 => method end point
 ctrl+y delete whole line
 
