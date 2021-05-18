@@ -1,0 +1,11 @@
+https://www.goavega.com/install-apache-kafka-on-windows/
+
+In case of getting jvm paging error
+
+https://stackoverflow.com/questions/21448907/kafka-8-and-memory-there-is-insufficient-memory-for-the-java-runtime-environme
+
+
+Set this in environment variable
+
+
+KAFKA_HEAP_OPTS: "-Xmx512M -Xms256M"
