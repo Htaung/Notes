@@ -121,3 +121,78 @@ The companyId is the primary key of a portal instance
 
 
 Is SOAP auto generate in Liferay's exam?
+
+
+
+@Reference annotation causes Liferay’s OSGi container to inject references to your generated services so you can use them.
+
+<portlet:renderURL> tag’s var attribute creates the addEntryURL variable to hold the system-generated URL. 
+
+The <portlet:param> tag defines a URL parameter to append to the URL. In this example, 
+a URL parameter named mvcPath with a value of /edit_entry.jsp is appended to the URL
+
+
+
+The groupId defines the ID of the Site in Liferay DXP 
+The companyId is the primary key of a portal instance
+
+ServiceContext serviceContext = ServiceContextFactory.getInstance(GuestbookEntry.class.getName(), request);
+serviceContext.getUserId()
+ long groupId = serviceContext.getScopeGroupId();
+ The groupId defines the ID of the Site in Liferay DXP 
+The companyId is the primary key of a portal instance
+
+
+HtmlUtil, ParamUtil, and StringPool, are Liferay helper utilities
+ingle line of code do things like extract parameters, escape data, or provide Strings that otherwise have to be escaped.
+
+===>  Liferay’s SessionMessages API to add a success message  <====
+===>  Language.properties file and inserts the message for the key entry-added (it automatically converts the key from camel case)   <====
+
+SessionMessages.add(request, "entryAdded");
+SessionErrors.add(request, e.getClass().getName());
+
+==>			Using Resources and Permissions ==>		DRAC	   <==
+Define all resources and permissions
+Register all defined resources in the permissions system
+Associate permissions with resources
+Check for permission before returning resources
+
+two kinds of permissions: portlet permissions and resource (or model) permissions
+Portlet permissions protect access to global functions, such as Add Entry. 
+If users don’t have permission to access that global function, they’re missing a portlet permission.
+
+
+Resource permissions protect access to objects, such as Guestbook and GuestbookEntry. 
+A user may have permission to view one GuestbookEntry, view and edit another GuestbookEntry, and may not be able to access another GuestbookEntry at all. 
+
+
+
+Defining Model Permissions  ==>> permissions defined at the model level  <<=====
+create the permissions file in the guestbook-service project => /src/main/resources/META-INF/resource-actions/default.xml
+define model permission( resource permission) inside these tag on default.xml
+
+<resource-action-mapping>
+
+</resource-action-mapping>
+
+In guestbook-service’s src/main/resources folder, create a file called portlet.properties
+place the following=>
+resource.actions.configs=META-INF/resource-actions/default.xml
+
+
+Defining Portlet Permissions  ==>> permissions defined at the Portlet level  <<=====
+create the permissions file in the guestbook-web project => /src/main/resources/META-INF/resource-actions/default.xml
+define your portlet permissions inside these tags. => default.xml
+
+<resource-action-mapping>
+
+</resource-action-mapping>
+In guestbook-service’s src/main/resources folder, create a file called portlet.properties
+place the following=>
+resource.actions.configs=META-INF/resource-actions/default.xml
+
+Registering Your Permissions in the Database
+Resources are data stored with your entities that define how they can be accessed
+
+Elasticsearch provides some additional features like relevancy scoring and fuzzy search queries.
