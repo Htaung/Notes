@@ -1,0 +1,123 @@
+https://learn.liferay.com/dxp/latest/en/content_authoring_and_management.html
+
+Content Authoring Management
+Asset Lib
+Content Dashboard
+Content Performance Panel
+Web Content
+
+
+Organizing Content with Categories and Tags
+ Categories and Tags are two essential tools for helping users find content through search or navigation.
+ 
+
+Assigning Permissions to Web Content Structures and Templates
+Content Developer: Users with this Role have permission to create and edit Structures or Web Content Templates.
+Content Creator: Users this Role have permission to view Structures or Web Content Templates, so they can use them to create content.
+
+
+Auto-tagging currently works only for images, text-based documents, text-based web content, and blog entries.
+
+
+Defining the Session Property Vocabulary => Link a session property to a vocabulary.
+ControlPanel > SystemSetting > Segments > Session Property Vocabularies
+People > Segment
+
+
+Getting Analytics for User Segments ( Segment is for Analytics)
+To use Analytics Cloud with User Segments, you must first connect your DXP data source to Analytics Cloud and enable synchronization of users and analytics.
+
+Recycle Bin Overview
+By default, the Recycle Bin is enabled instance-wide, but you can disable it at any time for individual Sites
+
+Config > Setting => Google Analytics can used
+
+Introduction to Forms
+Liferay Forms gives you robust form building capability so you can gather user data that you need (for example, customer feedback, a job application). 
+
+
+Question 4. What Jsr Version Liferay Implements? Why Jsr Compatibility Is Important While Choosing A Portal?
+Answer :
+JSR is a "Java Specification Request". Liferay Portal is developed to adhere to JSR 168 and JSR 286 specifications. 
+
+
+Question 5. What Is A Portlet Lifecycle?
+Answer :
+Following is the portlet lifecycle: 
+
+init(): It mainly initializes the portlet.
+
+render(): It takes the HTML output to User Interface. It mainly render the view in term of JSP/HTML code and show into the respective portlet.
+
+Destroy: This method takes care of releasing the portlet resources.
+
+
+Developing Low Code Applications
+To define how users view and interact with your application’s data, create a table view.
+
+Creating a Standard Application
+To create applications based on a custom object takes four steps: create the object, create at least one form view, create at least one table view, and deploy the application.
+Control Panel → App Builder → Custom Objects.=> Create Time Off Request Object and then create form "Add Request" under Time Off Request object
+
+
+Creating a Workflow Powered Application
+Workflow Powered Applications require data from multiple stakeholders. These process-driven applications can go through multiple stages before the object’s data is fully fleshed out. 
+These apps can even send the processing back to previous stages/stakeholders.
+
+Liferay Core Framework
+Using Dispatch
+Dispatch is a flexible framework built on top of Liferay’s scheduler engine
+Dispatch provides a convenient UI for viewing and managing all instance jobs scheduled using the MessageListener interface.
+
+
+use Dispatch or MessageListener to schedule instance jobs?
+Dispatch Tasks are more flexible than jobs scheduled using MessageListener, 
+since changes can be applied to Dispatch Tasks in runtime through the Dispatch UI
+Changes to MessageListener jobs must be hardcoded and redeployed
+
+ The Dispatch UI also provides a more complete overview of each Dispatch Task’s execution properties (e.g., cron expression, start/end date, cluster mode) and execution history.
+ This information is not provided in the UI for MessageListener jobs.
+
+ Message Bus
+The Message Bus provides a loosely coupled way to exchange messages. 
+A class sending a message invokes the Message Bus to send the message to a destination, while other classes (listeners) registered at that destination receive the message. 
+The listeners are transparent to senders and vice-versa.
+
+Sender doesn't need to know receiver it only care about destination
+destination only care about who listen to his destination (Listener)
+Destinations: Logical (not physical), named locations where messages are sent.
+
+Listeners: Classes that listen for messages sent to specific destinations.
+
+Message Bus: The framework that handles destination registration and sends messages to listeners.
+
+Messages: Objects that can contain a payload and metadata, including an optional response destination.
+
+Senders: Arbitrary classes that invoke Message Bus to send messages to a destination’s listeners.
+
+
+Synchronous and Asynchronous Messaging
+Synchronous Messaging: The sender blocks after sending a message. When the sender’s condition (determined by the sender type) is met, the sender unblocks and continues processing.
+
+Asynchronous Messaging: The sender immediately continues processing after sending a message.
+
+Using Asynchronous Messaging shows how to configure a destination and send messages asynchronously to it. This is the simplest way to send messages.
+
+Using Default Synchronous Messaging demonstrates a message sender blocking until one listener responds to the message or, if no listener responds, until the message times out.
+
+Using Direct Synchronous Messaging shows a message sender blocking on sending a message until all listeners receive the message
+
+
+
+
+Stop here https://learn.liferay.com/dxp/latest/en/developing-applications/core-frameworks/message-bus/using-default-synchronous-messaging.html
+
+
+
+Service Builder is Liferay’s code generation tool for defining object models and mapping those models to SQL databases. 
+
+The groupId defines the ID of the Site in Liferay DXP 
+The companyId is the primary key of a portal instance
+
+
+Is SOAP auto generate in Liferay's exam?
