@@ -196,3 +196,25 @@ Registering Your Permissions in the Database
 Resources are data stored with your entities that define how they can be accessed
 
 Elasticsearch provides some additional features like relevancy scoring and fuzzy search queries.
+
+
+
+
+Architecture
+Liferay DXP architecture comprises these parts:
+
+Core: Bootstraps Liferay DXP and its frameworks. The Core provides a runtime environment for managing services, UI components, and customizations.
+
+Services: Liferay and custom functionality is exposed via Java APIs and web APIs.
+
+UI: The optional web application UI for adding portals, sites, pages, widgets, and content.
+
+You can use the Liferay DXP UI and services together or focus solely on using services via REST web APIs.
+
+
+Liferay DXP Startup Phases
+Startup consists of these main phases:
+
+Portal Context Initialization Phase: focuses on low level tasks without a web context.
+
+Main Servlet Initialization Phase: focuses on the portlet container and the Liferay DXP web application’s UI features such as Struts, Themes, and more.
