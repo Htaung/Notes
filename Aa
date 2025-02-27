@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Define source and backup directories
+SRC_DIR="AA"
+BACKUP_DIR="AA_backup_$(date +%Y%m%d_%H%M%S)"
+DELETED_JARS_BACKUP="deleted_jars_backup_$(date +%Y%m%d_%H%M%S)"
+
+# Step 1: Create a backup of the AA directory
+if [ -d "$SRC_DIR" ]; then
+    cp -r "$SRC_DIR" "$BACKUP_DIR"
+    echo "Backup created at $BACKUP_DIR"
+else
+    echo "Source directory '$SRC_DIR' does not exist!"
+    exit 1
+fi
+
+# Step 2: Define the default exclusion list
+DEFAULT_EXCLUSIONS=("keep1.jar" "keep2.jar")  # Modify as needed
+
+# Get additional exclusions from script arguments
+EXTRA_EXCLUSIONS=("$@")
+
+# Merge both exclusion lists
+EXCLUDED_FILES=("${DEFAULT_EXCLUSIONS[@]}" "${EXTRA_EXCLUSIONS[@]}")
+
+# Create a backup directory for deleted JARs
+mkdir -p "$DELETED_JARS_BACKUP"
+
+# Step 3: Move deleted JARs to the backup folder
+for file in *.jar; do
+    # Skip if no .jar files exist
+    [ -e "$file" ] || continue
+
+    # Check if the file is in the exclusion list
+    if [[ ! " ${EXCLUDED_FILES[*]} " =~ " $file " ]]; then
+        mv "$file" "$DELETED_JARS_BACKUP/"
+        echo "Moved to backup: $file"
+    else
+        echo "Skipping: $file"
+    fi
+done
+
+chmod +x cleanup_jars.sh
+./cleanup_jars.sh extra1.jar extra2.jar
+
+echo "Cleanup complete. Deleted JARs are backed up in $DELETED_JARS_BACKUP."
