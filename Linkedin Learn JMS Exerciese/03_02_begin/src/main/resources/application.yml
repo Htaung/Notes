@@ -1,0 +1,19 @@
+server:
+  port: 9000
+  servlet:
+    register-default-servlet: true
+---
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+      
+
+#logging:
+ # level:
+  #    org:
+   #    springframework: DEBUG
+    #  com:
+     #  thoughtworks:
+      #  xstream: DEBUG
