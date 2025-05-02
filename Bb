@@ -1,0 +1,82 @@
+Here is the complete Groovy DSL version of a build.gradle that:
+
+Uses Apache CXF wsdl2java
+
+Supports multiple WSDLs (similar to wsdlOptions)
+
+Adds generated sources to compilation
+
+
+
+---
+
+build.gradle (Groovy DSL)
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    cxfVersion = '3.5.6' // Or newer compatible version
+}
+
+dependencies {
+    implementation "org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion"
+    implementation "org.apache.cxf:cxf-rt-transports-http:$cxfVersion"
+}
+
+def wsdlConfigs = [
+    [
+        wsdlFile    : "$projectDir/src/main/resources/first.wsdl",
+        packageName : 'com.example.first'
+    ],
+    [
+        wsdlFile    : "$projectDir/src/main/resources/second.wsdl",
+        packageName : 'com.example.second'
+    ]
+]
+
+task generateWsdl2Java {
+    group = 'build'
+    description = 'Generate Java classes from WSDLs using CXF'
+
+    doLast {
+        wsdlConfigs.each { config ->
+            def outputDir = file("$buildDir/generated-sources/${config.packageName.replace('.', '/')}")
+            outputDir.mkdirs()
+
+            javaexec {
+                main = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
+                classpath = sourceSets.main.runtimeClasspath
+                args = [
+                    '-d', outputDir.absolutePath,
+                    '-p', config.packageName,
+                    '-wsdlLocation', "classpath:${new File(config.wsdlFile).name}",
+                    config.wsdlFile
+                ]
+            }
+
+            sourceSets.main.java.srcDirs += outputDir
+        }
+    }
+}
+
+compileJava.dependsOn generateWsdl2Java
+
+
+---
+
+Notes
+
+Place your *.wsdl files in src/main/resources.
+
+You can configure -wsdlLocation as needed depending on runtime needs.
+
+You can use -autoNameResolution, -xjc-Xts, etc., in the args list for advanced options.
+
+
+Do you want me to generate this for a single WSDL with custom args like binding files or extensions?
