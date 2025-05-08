@@ -1,0 +1,14 @@
+File wsdlFile = WsdlDownloader.downloadWsdl(
+    "https://your-endpoint-url.com/bookings?wsdl", 
+    "yourUsername", 
+    "yourPassword"
+);
+
+BookingsPortService service = new BookingsPortService(wsdlFile.toURI().toURL());
+BookingsPort port = service.getBookingsPortSoap11();
+
+// Inject credentials again for the actual service call
+BindingProvider bp = (BindingProvider) port;
+bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "https://your-endpoint-url.com/bookings");
+bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "yourUsername");
+bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "yourPassword");
