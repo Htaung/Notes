@@ -1,0 +1,29 @@
+import java.io.*;
+import java.net.*;
+import java.util.Base64;
+
+public class WsdlDownloader {
+
+    public static File downloadWsdl(String endpointUrl, String username, String password) throws IOException {
+        URL url = new URL(endpointUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        // Set basic auth header
+        String auth = username + ":" + password;
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
+        connection.setRequestProperty("Authorization", "Basic " + encodedAuth);
+
+        // Connect and read response
+        InputStream in = connection.getInputStream();
+        File tempWsdl = File.createTempFile("bookings", ".wsdl");
+        try (FileOutputStream out = new FileOutputStream(tempWsdl)) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return tempWsdl;
+    }
+}
