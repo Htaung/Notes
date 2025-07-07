@@ -1,0 +1,10 @@
+find /your/path -type f -newermt "$(date -d '7 days ago' +%F)" -delete
+find /your/path -type d -empty -newermt "$(date -d '7 days ago' +%F)" -delete
+
+
+find /your/path -type f -newermt "$(date -d '7 days ago' +%F)" -print
+find /your/path -type d -empty -newermt "$(date -d '7 days ago' +%F)" -print
+
+
+find /your/path -mindepth 1 -newermt "$(date -d '7 days ago')" -exec rm -rf {} +
+
