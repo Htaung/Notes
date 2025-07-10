@@ -17,3 +17,19 @@ destinationConfiguration.setWorkersCoreSize(_CORE_SIZE);
 destinationConfiguration.setWorkersMaxSize(_MAX_SIZE); 
 
 suggest me what is best option to set size
+
+messaging.destination.default.worker.threads=10
+messaging.destination.analytics.worker.threads=5
+messaging.destination.search.worker.threads=15
+
+
+scheduler.dispatch.thread.pool.size=20
+
+
+osgi/configs/com.liferay.portal.kernel.messaging.DestinationConfiguration.default.config
+
+name=default
+rejectedExecutionHandler=AbortPolicy
+maximumQueueSize=200
+coreSize=20
+maxSize=20
