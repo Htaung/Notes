@@ -1,0 +1,26 @@
+#!/bin/bash
+# gogo.sh - Run Gogo shell commands via telnet and capture output
+
+HOST="localhost"
+PORT="11311"
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 output_file \"command1\" \"command2\" ..."
+  exit 1
+fi
+
+OUTFILE=$1
+shift  # remove the first arg (output file), leaving only commands
+
+(
+  for cmd in "$@"; do
+    echo "$cmd"
+  done
+  sleep 3   # wait for output before closing
+) | telnet $HOST $PORT | sed '1,5d' > "$OUTFILE"
+
+echo "✅ Commands executed. Output saved to $OUTFILE"
+
+
+
+./gogo.sh mylog.txt "lb com.web" "headers 123" "diag 123"
