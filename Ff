@@ -33,3 +33,15 @@ rejectedExecutionHandler=AbortPolicy
 maximumQueueSize=200
 coreSize=20
 maxSize=20
+
+
+awk -v start="$(date -d '2 minutes ago' +%s)" \
+    -v end="$(date +%s)" \
+    '$0 ~ /^[0-9-]{10} [0-9:.]{12}/ {
+        logtime = $1 " " $2
+        gsub("\\..*","",logtime)   # remove milliseconds
+        cmd = "date -d \"" logtime "\" +%s"
+        cmd | getline t
+        close(cmd)
+        if (t >= start && t <= end) print $0
+    }' aa.log | grep -i "STARTED"
