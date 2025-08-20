@@ -1,0 +1,29 @@
+#!/bin/bash
+# Usage: ./grep_last_minutes.sh <logfile> <minutes> <keyword>
+
+LOGFILE="$1"
+MINUTES="$2"
+KEYWORD="$3"
+
+if [[ -z "$LOGFILE" || -z "$MINUTES" || -z "$KEYWORD" ]]; then
+  echo "Usage: $0 <logfile> <minutes> <keyword>"
+  exit 1
+fi
+
+START=$(date -d "$MINUTES minutes ago" +%s)
+END=$(date +%s)
+
+awk -v start="$START" -v end="$END" -v kw="$KEYWORD" '
+$0 ~ /^[0-9-]{10} [0-9:.]{12}/ {
+    logtime = $1 " " $2
+    gsub("\\..*","",logtime)   # strip milliseconds
+    cmd = "date -d \"" logtime "\" +%s"
+    cmd | getline t
+    close(cmd)
+    if (t >= start && t <= end && tolower($0) ~ tolower(kw)) {
+        print $0
+    }
+}' "$LOGFILE"
+
+
+./grep_last_minutes.sh aa.log 2 STARTED
