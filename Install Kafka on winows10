@@ -9,3 +9,139 @@ Set this in environment variable
 
 
 KAFKA_HEAP_OPTS: "-Xmx512M -Xms256M"
+
+
+The "Complete Guide to Apache Kafka for Beginners" is part of a series o
+f courses on Kafka. While this course focuses on the fundamentals, there are additional courses on LinkedIn Learning that cover more advanced topics lik
+e Kafka Connect, Kafka Streams, ksqlDB, Confluent Components, Kafka Security, Kafka Monitoring, and Kafka Cluster Setup and Administration. You
+ can explore LinkedIn Learning to find these courses and continue your Kafka learning journey.
+
+
+
+https://www.confluent.io/certification/
+
+
+What critical challenge does Apache Kafka address in data integration?
+
+streamlining protocol variations
+
+Kafka clusters
+logs, purchases, twitter_tweets, trucks_gps
+
+
+Kafka topics
+topics, are split in partition(eg. 100 partitions), are immutable 
+msgs within partition, are ordered, get an incremental id, called offset
+
+Topics, partitions and offsets 
+Once the data is written to a partition, cannot be changed(immutablity)
+Data is kept only for a limited time ( default is 1 week - configurable)
+Offset only have a meaning for specific partition
+eg. offset 3 in partition 0 not represent same data as offset 3 in partition 1
+offsets are not reused even if previous msg have been deleted
+Order is guranteed only within a partition(not across partition)
+Data is assigned ramdomly to a partition unless a key is provided(more on this later)
+
+
+## Producer
+- write data to topics which are made of partition
+- know to which partition to write to (and which broker has it)
+- in case of kafka broker failures, Producer will automatically recover
+
+### Producers: Message Keys
+- can choose to send a key with msg (string, binary, number,...)
+- if key = null, data is sent round robin(partition0, 1 ,2,...)
+- if key !=null, all msg for key will go to same partition(hashing)
+
+## Kafka msg anatomy
+Key (Binary), Value (Binary), Compession Type(none, gzip, snappy, lz4, zstd), Header, Partition + offset, Timstamp
+
+### Kafka msg serializer
+Kafka only accept bytes as input from producer
+send bytes out as output to consumer
+Message serilization means transforming object/ data to bytes
+they are used on value and key
+
+Key 123 => Keyserilizer - IntegerSerializer => Key - binary 01100
+Value "Hello" => Keyserilizer - StringSerializer => Value - binary 01100
+
+
+## Kafka msg key hashing
+- kafka partitioner is code logic that take a record and detemines which partition to send into
+Record => send => Producer Partitioner logic => assign partition 1 
+- is the process of detemining the mapping of a key to partition
+- default kafka partitioner, keys are hashed using murmur2 algorithm, as belows
+targetPartiton = Math.abs(Utils.murmur2(keyBytes)) % numPartition -1
+
+## Consumer
+- read data from topic - pull model
+- automatically know which broker to read from
+- in case of broker failures, consumer know how to recover
+- data is read in order from low to high offset within each partitions
+
+
+### Consumer deserializer
+- deserialize how to transform byes to object/data
+- used on value and key of msg
+- serilization/ deserialization should not be change during topic lifecycle ( create a new topic instead)
+
+### Consumer group
+- All the consumers in an app read data as a consumer groups
+- each consumer within a group reads from exclusive partitions
+
+### Consumer groups - what if too many consumers?
+if you have more consumers than partitions, some consumers will be inactive
+
+### Multiple consumers on one topic
+- is acceptable to have multiple consumer groups on same topic
+
+### Consumer offset
+- kafka stores the offset at which a consumer
+- Kafka stores the offsets at which a consumer group has been reading in a Kafka topic named __consumer_offsets.
+- Commit Offsets: Consumers commit offsets to Kafka brokers to indicate how far they have read into a Kafka topic. 
+- This helps in resuming reading from the last committed offset in case of a failure.
+
+- Delivery Semantics: 
+- by default, java consumers will automatically commit offsets(at least once)
+There are three delivery semantics based on how and when offsets are committed:
+- At least once: Offsets are committed after processing messages, which may lead to duplicate processing if a failure occurs.
+  - make sure processing is idepempotent (ie. processing again the msg won't impact your systems)
+- At most once: 
+ - Offsets are committed as soon as messages are received, which may lead to message loss if processing fails.
+- Exactly once: 
+ - Ensures messages are processed just once, 
+ - kafka throught kafka workflow, read from topic and write back to topic, use transactional API, kafka strem API
+ - kafka to external system use Idempotent consumer
+ - typically used with Kafka's transactional API.
+
+
+## Kafka broker
+- A kafka cluster is composed of multiple brokers(server)
+- received and send data 
+- identifies with ID (integer)
+- each broker contains certain topic partitions
+- After connecting to any broker (called bootstrap broker), clients or producer or consumer will be connected to entire cluster
+- A good number to get started is 3 brokers, but some big clusters have over 100 brokers
+
+
+## Broker and topics
+- Topic A with 3 partitions, Topic B with 2 partitions
+
+Broker1 =>  TopicA - Partition 0, TopicB - Partition 0  
+Broker2 =>  TopicA - Partition 1, TopicB - Partition 1
+Broker3 =>  TopicA - Partition 2
+
+- data is distributed and broker 3 doesn't have TopicB data
+- data in partition going to be distributed acrosss all brokers, called horizontal scaling
+- the more partitions, brokers we add, the more data is spread out across our entire cluster
+- broker don't have all data, have the data they should have
+
+## Broker discovery
+- every kafka broker is also called bootstrap server
+- only need to connect to one broker, kafka client will know how to be connected to enrire cluster(smart client)
+- kafka client -> initiate connection , metatdata request -> Broker1 -> return list of all broker
+  kafka client -> can connect to the needed broker (produce or consumer data)
+  
+  https://www.linkedin.com/learning/complete-guide-to-apache-kafka-for-beginners/topic-replication?autoSkip=true&resume=false&u=116771770
+
+
