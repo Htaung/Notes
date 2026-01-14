@@ -1,0 +1,238 @@
+Good question — and I need to correct one crypto concept first, then I’ll give you a complete, working Liferay-7.4 + JDK-21 example with keystores and code.
+❗ Important Crypto Correction (Very Important)
+👉 You CANNOT decrypt using a public key.
+Correct asymmetric crypto rules:
+Goal
+Correct Keys
+Encrypt data for subscriber
+Subscriber public key
+Decrypt data
+Subscriber private key
+Sign data (publisher proves identity)
+Publisher private key
+Verify signature
+Publisher public key
+So the usual secure flow is:
+Encrypt with subscriber public key
+Decrypt with subscriber private key
+Sign with publisher private key
+Verify with publisher public key
+I’ll implement both encryption + signing, which is what you really want in pub/sub systems.
+✅ Architecture Overview (Liferay + Bouncy Castle)
+Copy code
+
+Publisher
+ ├─ private key (sign)
+ ├─ public key (shared)
+ │
+ │  message
+ │   ├─ encrypted with Subscriber public key
+ │   └─ signed with Publisher private key
+ │
+Subscriber
+ ├─ private key (decrypt)
+ └─ public key (shared with publisher)
+✅ Step 1: Generate Keystores (JDK 21)
+We will create two keystores:
+publisher-keystore.p12
+subscriber-keystore.p12
+🔐 Publisher keystore
+Copy code
+Bash
+keytool -genkeypair \
+  -alias publisher \
+  -keyalg RSA \
+  -keysize 2048 \
+  -keystore publisher-keystore.p12 \
+  -storetype PKCS12 \
+  -validity 3650
+🔐 Subscriber keystore
+Copy code
+Bash
+keytool -genkeypair \
+  -alias subscriber \
+  -keyalg RSA \
+  -keysize 2048 \
+  -keystore subscriber-keystore.p12 \
+  -storetype PKCS12 \
+  -validity 3650
+🔄 Export Public Keys (to share)
+Export publisher public key
+Copy code
+Bash
+keytool -exportcert \
+  -alias publisher \
+  -keystore publisher-keystore.p12 \
+  -storetype PKCS12 \
+  -rfc \
+  -file publisher-public.pem
+Export subscriber public key
+Copy code
+Bash
+keytool -exportcert \
+  -alias subscriber \
+  -keystore subscriber-keystore.p12 \
+  -storetype PKCS12 \
+  -rfc \
+  -file subscriber-public.pem
+✅ Step 2: Liferay Module Dependencies (Bouncy Castle)
+build.gradle
+Copy code
+Gradle
+dependencies {
+    compileInclude "org.bouncycastle:bcprov-jdk18on:1.78.1"
+    compileInclude "org.bouncycastle:bcpkix-jdk18on:1.78.1"
+}
+✔ Works with JDK 21
+✔ Safe for Liferay OSGi
+✅ Step 3: Register Bouncy Castle Provider
+Copy code
+Java
+@Component(immediate = true)
+public class BouncyCastleActivator {
+
+    @Activate
+    protected void activate() {
+        if (Security.getProvider("BC") == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+    }
+}
+✅ Step 4: Load Keys from Keystore
+Copy code
+Java
+public class KeyStoreUtil {
+
+    public static KeyStore loadKeyStore(
+            InputStream is, char[] password) throws Exception {
+
+        KeyStore ks = KeyStore.getInstance("PKCS12");
+        ks.load(is, password);
+        return ks;
+    }
+
+    public static PrivateKey getPrivateKey(
+            KeyStore ks, String alias, char[] password) throws Exception {
+
+        return (PrivateKey) ks.getKey(alias, password);
+    }
+
+    public static PublicKey getPublicKey(
+            KeyStore ks, String alias) throws Exception {
+
+        return ks.getCertificate(alias).getPublicKey();
+    }
+}
+✅ Step 5: Encrypt with Subscriber Public Key
+Copy code
+Java
+public class EncryptUtil {
+
+    public static byte[] encrypt(byte[] data, PublicKey publicKey)
+            throws Exception {
+
+        Cipher cipher = Cipher.getInstance(
+                "RSA/ECB/OAEPWithSHA-256AndMGF1Padding", "BC");
+
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return cipher.doFinal(data);
+    }
+}
+✔ OAEP padding (secure)
+✔ JDK-21 safe
+✅ Step 6: Decrypt with Subscriber Private Key
+Copy code
+Java
+public class DecryptUtil {
+
+    public static byte[] decrypt(byte[] encrypted, PrivateKey privateKey)
+            throws Exception {
+
+        Cipher cipher = Cipher.getInstance(
+                "RSA/ECB/OAEPWithSHA-256AndMGF1Padding", "BC");
+
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return cipher.doFinal(encrypted);
+    }
+}
+✅ Step 7: Sign with Publisher Private Key
+Copy code
+Java
+public class SignUtil {
+
+    public static byte[] sign(byte[] data, PrivateKey privateKey)
+            throws Exception {
+
+        Signature signature =
+                Signature.getInstance("SHA256withRSA", "BC");
+
+        signature.initSign(privateKey);
+        signature.update(data);
+        return signature.sign();
+    }
+}
+✅ Step 8: Verify with Publisher Public Key
+Copy code
+Java
+public class VerifyUtil {
+
+    public static boolean verify(
+            byte[] data, byte[] sigBytes, PublicKey publicKey)
+            throws Exception {
+
+        Signature signature =
+                Signature.getInstance("SHA256withRSA", "BC");
+
+        signature.initVerify(publicKey);
+        signature.update(data);
+        return signature.verify(sigBytes);
+    }
+}
+✅ Step 9: End-to-End Flow Example
+Copy code
+Java
+String message = "Hello Secure Liferay";
+
+// Publisher side
+byte[] encrypted =
+    EncryptUtil.encrypt(message.getBytes(), subscriberPublicKey);
+
+byte[] signature =
+    SignUtil.sign(encrypted, publisherPrivateKey);
+
+// Subscriber side
+boolean valid =
+    VerifyUtil.verify(encrypted, signature, publisherPublicKey);
+
+byte[] decrypted =
+    DecryptUtil.decrypt(encrypted, subscriberPrivateKey);
+
+System.out.println(new String(decrypted));
+✅ Where to Put Keystore Files in Liferay
+Best options:
+configs/ folder
+Or store in Document Library and load as stream
+Or use OSGi Config Admin for passwords
+❌ Do NOT hardcode keystore passwords in code.
+🚨 Common Liferay + BC Pitfalls (Avoid These)
+Problem
+Fix
+ClassNotFoundException: org.bouncycastle
+Use compileInclude
+BC conflicts with Liferay internal BC
+Embed BC in your module
+NoSuchAlgorithmException
+Explicit "BC" provider
+Trying to decrypt with public key
+❌ Crypto mistake
+✅ Summary
+✔ Works on Liferay 7.4 + JDK 21
+✔ No classloader conflicts
+✔ Correct crypto model
+✔ Production-grade padding & signatures
+If you want, next I can:
+🔹 Convert this into OSGi service APIs
+🔹 Add AES + RSA hybrid encryption (recommended for large messages)
+🔹 Show how to rotate keys safely
+🔹 Integrate with Liferay PasswordEncryptor / PortalCrypto
+Just tell me 👍
