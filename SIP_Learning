@@ -1,0 +1,160 @@
+
+
+index tracking ETF
+
+replication method used to track performance of underlying asset
+
+
+Cash based
+1.Direct replication
+- 
+
+2. Statistical or Representative Sampling
+- 
+
+
+Synthetic replication
+
+What can be maximum loss for an investment a future contract be?
+
+1.Max loss is capped at maintenance margin
+2.Max loss is capped at initial margin place
+3.Max loss can be more than the initial margin placed
+
+
+Micahal is planning to buy a future contract with an underlying asset worth @20,000. The initial margin was $3000 and maintenance margin
+was $2000. Under which schenario would there be a margin call?
+1.The value of underlying asset rise to $22,000
+2.The value of underlying asset drop to $15,000
+3.The value of underlying asset drop to $19,000
+Give me correct answer
+
+
+A new investor is asking for more information about the key features of euporean style call warrant expiring 10 December 2020
+Which of below should i share?
+1. it is right to buy the underlying asset at a predetermined specific price
+2. The warrant will no longer  be tradeable after 10 december 2020
+3. The warrant can only be excercised on 10 December 2020 and not before that date
+4. all of the above	
+
+I am looking at some share prices and moneyness of warrant. ABC share price is now 1t $16.the ABC call warrant has a strike price of 14$
+which of below should i categorized this warrant as?
+1. In-the-money
+2.Out-of-the-money
+3.at-the-money
+
+Before we move onto how structured warrant work, let's review what has been covered.
+Select Correct item for each space in sentence, and click submit
+1. price of a put warrant will ___________ closer to expiring date => (choose increases or decreases)
+2. the price of of a call warrant will ____________ as the price of underlying asset decreases => (choose increases or decreases)
+3. the price of put and call warrant will _____________ as implied volatility of the underlying asset increases => (choose increases or decreases)
+help me fill the answer increases or decreases
+
+
+My client, lucas is confident that XYZ stock currently priced at $20 will decrease to $12 in three months's time. He is considering using a structured warrant to profit from his prediction
+Which warrant should he consider?
+1. Warrant A, which give him the right to buy the stock at $18 three months later. (Call warrant with $18 strike))
+2. Warrant B, which give him the right to buy the stock at $25 three months later. (Call warrant with $25 strike))
+3. Warrant C, which give him the right to buy the stock at $18 three months later. (Call warrant with $18 strike))
+help me the answer
+
+A put warrant has an exercised price of $18 and a conversation ratio of 5 warrants: 1 underlying stock. lucas buys 5 put warrants at the price of $0.20 per warrant.
+In line with Lucas' expectations, the underlying stock has decreased significantly to $12.
+what is his net gain per put warrant at expiry?
+Select one option 
+1. ($18 - $12)/5 - $0.20 = $1
+2. ($18 - $12) - ($0.20*5) = $5
+3. ($18 - $12)- $0.20 = $5.80
+Help me correct answer
+
+I'm typing up some information about the differences between an option and a structured warrant
+Which of the below statement is true?
+1. An option is issued by an exhanged while a structured warrant is issued by a financial insititution
+2. Investors can write (short sell) an option whereas no writing of positions is allowed for structured warrant
+3. Both statements are true
+Help me correct answer
+
+Hi John,
+I am looking at sgx.com warrant page.and i've noticed the below structured warrant.
+DBS AAdd12	
+What can you tell me is true about this structured warrant?
+
+1.the DBS warrant expires 18 dec 2020
+1.the DBS warrant expires 20 dec 2018
+1.the DBS warrant is a PUT warrant
+Help me correct answer
+
+Investors should read the relevant listing doc for full list of risks involved in trading structured warrant/optons. highlighted here are some of the risks
+1
+
+Let's see if you were listening to my conversation
+Grace, a savvy trader, brought a 7x long abc index DLC and invested $1000 . the next day the ABC index went to 2%.
+how would grace's investment changed?
+1. grace's investment would increase in value by $140 (7X2% X $1000)
+2. grace's investment would decrease in value by $140 (7X2% X $1000)
+3. grace's investment would increase in value by 7X to $7000
+Help me correct answer
+
+Hi Elane,
+if the underlying asset rise for multiple consecutive days, the gains on long DLC will be compounded and will positively affect returns. 
+In the case where the underlying asset gains 1% consecutively for 3 days (total gains of 3% over three days), which of the below returns
+on the 5x Long DLC showcases the compounding effect?
+1. 5x Long DLC has a total gain of +15% over the three days
+2. 5x Long DLC has a total gain of +15.8% over the three days
+3. 5x Long DLC has a total gain of +5% over the three days
+Help me correct answer
+
+I have responded to Brian and informed him that the effect of compounding can negatively impact returns when market is moving sideways. If this is the case, what will the investor
+most likely see?
+1. An underperformance of the DLC versus performance of the underlying asset multiple by the leverage factor
+2. An outperformance of the DLC versus performance of the underlying asset multiple by the leverage factor
+3. No differences between the performance of the DLC and performance of underlying asset
+Help me correct answer
+
+Three of my clients hold DLCS with airbag trigger levels.
+James hold a short DLC with airbag trigger level of 10% movement of the underlying assets
+Grace hold a short DLC with airbag trigger level of 15% movement of the underlying assets
+lucas hold a long DLC with airbag trigger level of 10% movement of the underlying assets
+if the underlying asset unexpectedly tell by -12%. Whose DLC will have its airbag triggered?
+1. James
+2. Grace
+3. Lucas
+Help me correct answer
+
+Mis responds to claud's email, and mention that her short-term view of the market is negative .
+What should she invest in?
+1. Long Exchange  traded funds (ETFS)
+2. Long leverage Products
+3. shot/inverse products
+4. Both short and long exhanged traded funds(ETFS)
+Help me correct answer
+
+Which of the below statement are true?
+A. Yield enhancement and Participation certifications  offer capital protection
+B. Autocallable certificates are designed for markets that are downward trending
+C. Outperformance certificates are designed for markets that are upward trending
+D. An investor relies on the creditworthiness of the issuer and the gurantor when purchasing the structured certificates
+
+choose the answer below
+A, B
+B, C
+C, D
+All of the above
+Help me correct answer
+
+Lionel invests a Notional Amount of $10,000 in an Autocallable certificates with an Autocall barrrier of 105% a strike Price and Knock-in barrrier at 95%
+of the initial price of the underlying asset. The cap is at 100% of Notional amount. Automatic Early Expiry occured for the Autocallable certificates as the
+closing price of the underlying asset was higher than or equal to Autocall Barrier on an Observation Date during the term of the certificates.
+
+1. National Amount per certificates x closing price of the underlying asset at Valuation Date divided by the stike price(subject to cap)
+2. Notional Amount per certificates x 100%
+3. Notional Amount per certificates x 105%
+Help me correct answer
+
+Olivia invests a Notional amount of $10,000 in an Outperformance certificates with a Participation of 150% and without a cap.
+At Valuation date, the closing price of the underlying asset was 25% above the stike price.
+Which of the below describe the cash settlement amount that Olivia will receive at expiry?
+1. 100% of Notional Amount per certificates + (150x 25% of Notional Amount per certificates)
+2. 100% of Notional Amount per certificates X 150% 
+3. 100% of Notional Amount per certificates
+Help me correct answer
