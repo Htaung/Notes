@@ -1,0 +1,87 @@
+@Component(
+        immediate = true,
+        service = AAAccountDestination.class
+)
+public class AAAccountDestination {
+    private final Log _log = LogFactoryUtil.getLog(AAAccountDestination.class);
+
+    @Activate
+    protected void activate(BundleContext bundleContext) {
+        _bundleContext = bundleContext;
+
+        DestinationConfiguration destinationConfiguration = new DestinationConfiguration(DestinationConfiguration.DESTINATION_TYPE_SERIAL, DestinationConstant.AA_ACCOUNT);
+
+        destinationConfiguration.setMaximumQueueSize(_MAXIMUM_QUEUE_SIZE);
+        destinationConfiguration.setWorkersCoreSize(_CORE_SIZE);
+        destinationConfiguration.setWorkersMaxSize(_MAX_SIZE);
+
+        RejectedExecutionHandler rejectedExecutionHandler =
+                new ThreadPoolExecutor.CallerRunsPolicy() {
+
+                    @Override
+                    public void rejectedExecution(
+                            Runnable runnable, ThreadPoolExecutor threadPoolExecutor) {
+
+                        _log.warn("[activate] The current thread will handle the request " + "because the rules engine's task queue is at " + "its maximum capacity");
+
+                        _log.warn("[activate] runnable: " + runnable.toString() + " threadPoolExecutor: " + threadPoolExecutor.toString());
+
+                        super.rejectedExecution(runnable, threadPoolExecutor);
+                    }
+
+                };
+
+        destinationConfiguration.setRejectedExecutionHandler(rejectedExecutionHandler);
+
+        Destination destination = _destinationFactory.createDestination(destinationConfiguration);
+        _log.info("[activate] Destination is creation .." + destination.getName());
+
+        Dictionary<String, Object> destinationProperties = new Hashtable<>();
+        destinationProperties.put("destination.name", destination.getName());
+
+        _destinationServiceRegistration = _bundleContext.registerService(Destination.class, destination, destinationProperties);
+        _log.info("[activate] Destination is registered with Service Registration ..");
+    }
+
+    @Deactivate
+    protected void deactivate() {
+        if (_destinationServiceRegistration != null) {
+            Destination destination = _bundleContext.getService(_destinationServiceRegistration.getReference());
+
+            _destinationServiceRegistration.unregister();
+
+            destination.destroy();
+        }
+
+        _bundleContext = null;
+    }
+
+
+    //private static final int _MAXIMUM_QUEUE_SIZE = 100;
+    //private static final int _CORE_SIZE = 50;
+    //private static final int _MAX_SIZE = 150;
+
+    //259 hits => 2025-07-10 18:10:00.423 to 2025-07-11 02:48:01.453
+    private static final int _MAXIMUM_QUEUE_SIZE = 100;
+    private static final int _CORE_SIZE = 50;
+    private static final int _MAX_SIZE = 150;
+
+    /**
+     * not working well
+     * private static final int _MAXIMUM_QUEUE_SIZE = 5000;
+     * private static final int _CORE_SIZE = 4;
+     * private static final int _MAX_SIZE = 8;
+     */
+
+    //private static final int _MAXIMUM_QUEUE_SIZE = 20;
+    //private static final int _CORE_SIZE = 10;
+    //private static final int _MAX_SIZE = 30;
+
+
+    private BundleContext _bundleContext;
+
+    @Reference
+    private DestinationFactory _destinationFactory;
+
+    private volatile ServiceRegistration<Destination> _destinationServiceRegistration;
+}
