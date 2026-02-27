@@ -1,0 +1,74 @@
+public class ValidationResult {
+    private final String message;
+
+    private ValidationResult(String message) {
+        this.message = message;
+    }
+
+    public static ValidationResult failure(String message) {
+        return new ValidationResult(message);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+@FunctionalInterface
+public interface Validator<T> {
+
+    List<ValidationResult> validate(T t);
+
+    default Validator<T> and(Validator<T> other) {
+        return t -> {
+            List<ValidationResult> results = new ArrayList<>(this.validate(t));
+            results.addAll(other.validate(t));
+            return results;
+        };
+    }
+}
+
+import java.util.List;
+import java.util.function.Function;
+
+public class Validators {
+
+    public static <T> Validator<T> notEmpty(Function<T, String> field, String name) {
+        return t -> {
+            String value = field.apply(t);
+
+            if (value != null && !value.trim().isEmpty()) {
+                return List.of();
+            }
+            return List.of(ValidationResult.failure(name + " must not be empty"));
+        };
+    }
+
+    public static <T, R> Validator<T> notNull(Function<T, R> field, String name) {
+        return t -> {
+            if (field.apply(t) != null) {
+                return List.of();
+            }
+            return List.of(ValidationResult.failure(name + " must not be null"));
+        };
+    }
+}
+
+
+Validator<User> validator =
+    Validators.notEmpty(User::getName, "Name")
+        .and(Validators.notEmpty(User::getEmail, "Email"));
+
+User user = new User();
+user.setName("");
+user.setEmail(null);
+
+List<ValidationResult> results = validator.validate(user);
+
+if (!results.isEmpty()) {
+    results.forEach(r -> System.out.println(r.getMessage()));
+}
+
