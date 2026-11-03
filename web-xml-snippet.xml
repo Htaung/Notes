@@ -1,0 +1,15 @@
+<!-- Add inside WEB-INF/web.xml (replace your old startup listener entry) -->
+
+<listener>
+  <listener-class>com.example.startup.StartupListener</listener-class>
+</listener>
+
+<!-- Optional: return 503 until the database is ready -->
+<filter>
+  <filter-name>DbReadyFilter</filter-name>
+  <filter-class>com.example.startup.DbReadyFilter</filter-class>
+</filter>
+<filter-mapping>
+  <filter-name>DbReadyFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>

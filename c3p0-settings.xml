@@ -1,0 +1,26 @@
+<!-- Spring bean example: fast-fail c3p0 settings so each retry attempt gives up quickly.
+     Put CONNECT_TIMEOUT in the JDBC URL (seconds). Replace dbhost, port, SERVICE, user, password. -->
+
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+  <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
+  <property name="jdbcUrl" value="jdbc:oracle:thin:@(DESCRIPTION=(CONNECT_TIMEOUT=5)(RETRY_COUNT=1)(ADDRESS=(PROTOCOL=TCP)(HOST=dbhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=SERVICE)))"/>
+  <property name="user" value="CHANGE_ME"/>
+  <property name="password" value="CHANGE_ME"/>
+
+  <!-- 0 = no connection opened while the pool is created on the deploy thread -->
+  <property name="initialPoolSize" value="0"/>
+  <property name="minPoolSize" value="0"/>
+  <property name="maxPoolSize" value="30"/>
+  <property name="acquireIncrement" value="2"/>
+  <property name="maxIdleTime" value="120"/>
+  <property name="maxStatements" value="0"/>
+
+  <property name="acquireRetryAttempts" value="2"/>
+  <property name="acquireRetryDelay" value="1000"/>
+  <property name="breakAfterAcquireFailure" value="false"/>
+  <property name="checkoutTimeout" value="10000"/>
+
+  <property name="idleConnectionTestPeriod" value="60"/>
+  <property name="testConnectionOnCheckout" value="true"/>
+  <property name="preferredTestQuery" value="SELECT 1 FROM DUAL"/>
+</bean>
